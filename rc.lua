@@ -20,7 +20,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 -- Load Debian menu entries
-local debian = require("debian.menu")
+-- local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 local lain = require("lain")
@@ -29,6 +29,7 @@ local lain = require("lain")
 -- Global variables
 local awesome = awesome
 local client = client
+require("powerline")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -111,7 +112,7 @@ if has_fdo then
 else
     mymainmenu = awful.menu({
         items = {
-            menu_awesome, {"Debian", debian.menu.Debian_menu.Debian},
+--            menu_awesome, {"Debian", debian.menu.Debian_menu.Debian},
             menu_terminal
         }
     })
@@ -185,17 +186,18 @@ local batteryMonitor = lain.widget.bat({
     settings = function()
 	local power_icon
         if bat_now.status == "N/A" or bat_now.status == "Full" then
-            power_icon = markup.font(beautiful.icon_font, "Jethro")
+           -- power_icon = markup.font(beautiful.icon_font, "Jethro")
         elseif bat_now.status == "Charging" and tonumber(bat_now.perc) < 100 then
-            power_icon = markup.font(beautiful.icon_font, "Not Bird") ..
-                             markup.font(beautiful.font,
-                                         " " .. bat_now.perc .. "%")
+          --  power_icon = markup.font(beautiful.icon_font, "Not Bird") ..
+          --                   markup.font(beautiful.font,
+          --                               " " .. bat_now.perc .. "%")
         else
-            power_icon = markup.font(beautiful.icon_font, "Bird") ..
-                             markup.font(beautiful.font,
-                                         " " .. bat_now.perc .. "%")
+	  --	local bird = markup.font( "Bird")
+          -- power_icon = markup.font(beautiful.icon_font, "Bird") ..
+          --                   markup.font(beautiful.font,
+          --                               " " .. bat_now.perc .. "%")
         end
-        widget:set_markup(markup.font(beautiful.font, power_icon))
+        -- widget:set_markup(markup.font(beautiful.font, power_icon))
 	--luacheck: push ignore
         bat_notification_low_preset = {
             title = "Battery low",
@@ -216,7 +218,6 @@ local batteryMonitor = lain.widget.bat({
     end
 
 })
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
@@ -544,7 +545,12 @@ awful.rules.rules = {
         rule_any = {type = {"normal", "dialog"}},
         properties = {titlebars_enabled = true}
     }, -- Set Firefox to always map on the tag named "2" on screen 1.
-    {rule = {class = "Tor Browser"}, properties = {screen = 1, tag = "9"}}
+    {rule = {class = "Tor Browser"}, properties = {screen = 1, tag = "9"}},
+    {rule = {instance = "feh"}, properties = {floating = true },
+	callback = function(c)
+		awful.placement.centered(c, nil)
+	end
+    }
 }
 -- }}}
 
@@ -613,3 +619,4 @@ client.connect_signal("unfocus",
 
 -- Enable autorun
 awful.spawn.with_shell("~/config/awesome/autorun.sh")
+
