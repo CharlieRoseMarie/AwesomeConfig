@@ -177,11 +177,11 @@ local function set_wallpaper(s)
     end
 end
 
-local volume = lain.widget.pulse({
+local volume = lain.widget.alsa({
     settings = function()
-        local vlevel = volume_now.left
+        local vlevel = volume_now.level
         local volLevel = markup("#7493d2", " " .. vlevel .. "%")
-        if volume_now.muted == "yes" then
+        if volume_now.status == "off" then
             volLevel = markup("#b30000", " " .. vlevel .. "%")
         end
         widget:set_markup(volLevel)
@@ -192,18 +192,11 @@ local batteryMonitor = lain.widget.bat({
     settings = function()
 	local power_icon
         if bat_now.status == "N/A" or bat_now.status == "Full" then
-           -- power_icon = markup.font(beautiful.icon_font, "Jethro")
-        elseif bat_now.status == "Charging" and tonumber(bat_now.perc) < 100 then
-          --  power_icon = markup.font(beautiful.icon_font, "Not Bird") ..
-          --                   markup.font(beautiful.font,
-          --                               " " .. bat_now.perc .. "%")
-        else
-	  --	local bird = markup.font( "Bird")
-          -- power_icon = markup.font(beautiful.icon_font, "Bird") ..
-          --                   markup.font(beautiful.font,
-          --                               " " .. bat_now.perc .. "%")
+           power_icon = "Jethro"
+        else 
+           power_icon = bat_now.perc .. "%"
         end
-        -- widget:set_markup(markup.font(beautiful.font, power_icon))
+        widget:set_markup(power_icon)
 	--luacheck: push ignore
         bat_notification_low_preset = {
             title = "Battery low",
@@ -266,15 +259,16 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            wibox.widget.systray(),
             volume,
 	    batteryMonitor,
-            wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
         },
     }
 end)
 -- }}}
+batteryMonitor.update()
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -286,7 +280,18 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
-    awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+awful.key({}, "XF86AudioLowerVolume", function()
+    os.execute(string.format("amixer set %s 5%%-", volume.channel),
+               false)
+    volume.update()
+end), awful.key({}, "XF86AudioRaiseVolume", function()
+    os.execute(string.format("amixer set %s 5%%+", volume.channel),
+               false)
+    volume.update()
+end), awful.key({}, "XF86AudioMute", function()
+    os.execute(string.format("amixer set %s toggle", volume.togglechannel or volume.channel),
+               false)
+    volume.update() end), awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
