@@ -543,6 +543,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
+		     size_hints_honor = false,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
@@ -576,6 +577,14 @@ awful.rules.rules = {
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
+    },
+    {
+	    rule = {class = "feh"},
+	    properties = {
+		    floating = true,
+		    ontop = true,
+		    placement = awful.placement.centered,
+	    }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
