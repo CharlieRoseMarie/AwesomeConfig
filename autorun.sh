@@ -7,3 +7,4 @@ function run {
 	fi
 }
 run rescuetime &
+run redshift
