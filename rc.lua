@@ -219,6 +219,42 @@ local batteryMonitor = lain.widget.bat({
 
 })
 
+local myredshift = wibox.widget{
+	checked      = false,
+	check_color  = "#EB8F8F",
+	border_color = "#EB8F8F",
+	border_width = 1,
+	shape        = gears.shape.square,
+	widget       = wibox.widget.checkbox
+
+}
+
+local myredshift_text = wibox.widget{
+	align  = "center",
+	widget = wibox.widget.textbox,
+
+}
+
+local myredshift_stack = wibox.widget{
+	myredshift,
+	myredshift_text,
+	layout = wibox.layout.stack
+
+}
+
+lain.widget.contrib.redshift:attach(
+	myredshift,
+	function (active)
+		if active then
+			myredshift_text:set_markup(markup(beautiful.bg_normal, "<b>R</b>"))
+		else
+			myredshift_text:set_markup(markup(beautiful.fg_normal, "R"))
+		end
+		myredshift.checked = active
+	end
+)
+
+
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
@@ -261,7 +297,8 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
-            volume,
+            myredshift_stack,
+	    volume,
 	    batteryMonitor,
             mytextclock,
             s.mylayoutbox,
