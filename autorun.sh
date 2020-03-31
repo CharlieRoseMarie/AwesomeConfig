@@ -7,4 +7,5 @@ function run {
 	fi
 }
 run rescuetime &
-run redshift
+run discord
+run xcompmgr -c

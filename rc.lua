@@ -318,6 +318,7 @@ root.buttons(gears.table.join(
 
 -- {{{ Key bindings
 globalkeys = gears.table.join(
+ awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'", false) end),
 awful.key({}, "XF86AudioLowerVolume", function()
     os.execute(string.format("amixer set %s 5%%-", volume.channel),
                false)
@@ -562,6 +563,7 @@ awful.rules.rules = {
           "Sxiv",
           "Wpa_gui",
           "pinentry",
+	  "rescuetime",
           "veromix",
           "xtightvncviewer"},
 
@@ -584,6 +586,7 @@ awful.rules.rules = {
 		    floating = true,
 		    ontop = true,
 		    placement = awful.placement.centered,
+		    titlebars_enabled = false,
 	    }
     },
 
@@ -658,8 +661,14 @@ client.connect_signal("mouse::enter", function(c)
     end
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) 
+	c.border_color = beautiful.border_focus
+	c.opacity = 1
+end)
+client.connect_signal("unfocus", function(c) 
+	c.border_color = beautiful.border_normal 
+	c.opacity = 0.95
+end)
 -- }}}
 
 
