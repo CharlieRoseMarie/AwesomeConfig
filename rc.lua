@@ -426,7 +426,7 @@ end), awful.key({}, "XF86AudioMute", function()
               end,
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
+    awful.key({ modkey }, "p", function() awful.util.spawn("dmenu_run") end,
               {description = "show the menubar", group = "launcher"})
 )
 
