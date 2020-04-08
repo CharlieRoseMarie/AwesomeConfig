@@ -319,6 +319,7 @@ root.buttons(gears.table.join(
 -- {{{ Key bindings
 globalkeys = gears.table.join(
  awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'", false) end),
+ awful.key({ modkey }, "Print", function () awful.spawn("import png:- | display png:-", false) end),
 awful.key({}, "XF86AudioLowerVolume", function()
     os.execute(string.format("amixer set %s 5%%-", volume.channel),
                false)
