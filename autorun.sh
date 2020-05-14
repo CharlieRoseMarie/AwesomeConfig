@@ -9,3 +9,5 @@ function run {
 run rescuetime &
 run discord
 run xcompmgr -c
+run nm-applet
+run todoist
