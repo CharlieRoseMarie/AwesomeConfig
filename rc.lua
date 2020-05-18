@@ -590,10 +590,12 @@ awful.rules.rules = {
 		    titlebars_enabled = false,
 	    }
     },
+    { rule_any = { class = {"Discord", "Teams" }}, properties = { screen = 1, tag = "9" } },
+    { rule_any = { class = {"Remmina" }}, properties = { screen = 1, tag = "3" } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+{ rule = { class = "Firefox" },
+       properties = { screen = 1, tag = "2" } },
 }
 -- }}}
 
