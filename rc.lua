@@ -352,8 +352,8 @@ end), awful.key({}, "XF86AudioMute", function()
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () awful.util.spawn("/home/charlotte/bin/MineTime") end,
-              {description = "Open Calendar"}),
+    awful.key({ modkey, "Shift"   }, "f", function () awful.util.spawn("pcmanfm") end,
+              {description = "Open File Explorer"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -590,7 +590,7 @@ awful.rules.rules = {
 		    titlebars_enabled = false,
 	    }
     },
-    { rule_any = { class = {"Discord", "Teams" }}, properties = { screen = 1, tag = "9" } },
+    { rule_any = { class = {"Discord", "Teams", "Discord Updater" }}, properties = { screen = 1, tag = "9" } },
     { rule_any = { class = {"Remmina" }}, properties = { screen = 1, tag = "3" } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -670,7 +670,7 @@ client.connect_signal("focus", function(c)
 end)
 client.connect_signal("unfocus", function(c) 
 	c.border_color = beautiful.border_normal 
-	c.opacity = 0.95
+--	c.opacity = 0.95
 end)
 -- }}}
 
