@@ -7,7 +7,5 @@ function run {
 	fi
 }
 run rescuetime &
-run discord
 run xcompmgr -c
 run nm-applet
-run todoist
