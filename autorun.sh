@@ -7,5 +7,4 @@ function run {
 	fi
 }
 run rescuetime &
-run xcompmgr -c
-run nm-applet
+run xcompmgr -c &
